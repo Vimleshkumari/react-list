@@ -2,27 +2,34 @@ import { useState } from 'react'
 import './App.css'
 // 
 function App() {
-  let [players, setPlayers] = useState([])
-  let [playersAdded, setplayersAdded] = useState(false)
+  let [player, setPlayer] = useState("")
+  const [playersAdded, setplayersAdded] = useState([])
 
 
   const handleChange = (e) => {
-    console.log("e", e);
-    let a=[]
-    a.push(e.target.value)
-    setPlayers(a)
+    setPlayer(e.target.value)
   }
   const handleSubmit = (e) => {
-    console.log("e", e);
-    setplayersAdded(true)
+    console.log("players", player);
+
+    playersAdded.push(player)
+    setplayersAdded(playersAdded)
+    // setPlayer("")
   }
   return (
     <div className="App">
-      <input type='text' name="players" onChange={handleChange} value={players}/>
-      <button onClick={handleSubmit}>Add</button>
-      <button>Delete</button>
+      <input type='text' name="players" onChange={handleChange} value={player} />
+      <button onClick={handleSubmit} disabled={!player}>Add</button>
+      <button onClick={() => setPlayer("")}>Delete</button>
       <div>
-        <div>{playersAdded ? players : ""}</div>
+        <h1>Master Team</h1>
+        <div>{playersAdded.length ?
+          playersAdded.map((ele, ind) => {
+            return <li key={ind}>{ele} <button onClick={handleSubmit} disabled={!player}>Add</button>
+              <button onClick={() => setPlayer("")}>Delete</button></li >
+
+          })
+          : "No Players Added"}</div>
       </div>
     </div>
   );
